@@ -11,13 +11,13 @@ type Spot struct {
 	Website		string	`json:"website"`
 	Coordinates	string	`json:"coordinates"`
 	Description	string	`json:"description"`
-	Rating		float32	`json:"rating"`
+	Rating		float64	`json:"rating"`
 }
 
 type Parameters struct {
-	Latitude	float32	`json:"latitude"`
-	Longitude	float32	`json:"longitude"`
-	Radius		float32	`json:"radius"`
+	Latitude	float64	`json:"latitude"`
+	Longitude	float64	`json:"longitude"`
+	Radius		float64	`json:"radius"`
 	Type		string	`json:"type"`
 }
 
@@ -27,16 +27,18 @@ type PostgresConf struct {
 	Host			string	`json:"host"`
 	Port			string	`json:"port"`
 	DatabaseName	string	`json:"database_name"`
+	SSLMode			string	`json:"ssl_mode"`
 }
 
 func (obj *PostgresConf) GetConnectionString() string {
 	return fmt.Sprintf(
-		"postgres://%v:%v@%v:%v/%v",
+		"postgres://%v:%v@%v:%v/%v?sslmode=%v",
 		obj.Username,
 		obj.Password,
 		obj.Host,
 		obj.Port,
-		obj.DatabaseName)
+		obj.DatabaseName,
+		obj.SSLMode)
 }
 
 type Route struct {
