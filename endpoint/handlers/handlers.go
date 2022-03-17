@@ -25,8 +25,10 @@ func GetSpots(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(spots)
+	err = json.NewEncoder(w).Encode(spots)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
 }
 
 func GetSpotByID(w http.ResponseWriter, r *http.Request) {
@@ -37,6 +39,8 @@ func GetSpotByID(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(spot)
+	err = json.NewEncoder(w).Encode(spot)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
 }

@@ -2,7 +2,6 @@ package enteties
 
 import (
 	"fmt"
-	"net/http"
 )
 
 type Spot struct {
@@ -39,17 +38,4 @@ func (obj *PostgresConf) GetConnectionString() string {
 		obj.Port,
 		obj.DatabaseName,
 		obj.SSLMode)
-}
-
-type Route struct {
-	Name		string
-	Method		string
-	Pattern		string
-	Function	RoutingHandlerFunc
-}
-
-type RoutingHandlerFunc func(http.ResponseWriter, *http.Request)
-
-func (f RoutingHandlerFunc) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	f(w,r)
 }
