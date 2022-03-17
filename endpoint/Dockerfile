@@ -1,22 +1,25 @@
-FROM golang:alpine AS builder
+FROM golang:alpine
 
-RUN apk update && apk add --no-cache git
+ENV GO111MODULE=on \
+    CGO_ENABLED=0 \
+    GOOS=linux \
+    GOARCH=amd64
 
-WORKDIR /app
-COPY . .
+WORKDIR /build
 
 # Fetching dependencies
-RUN go get -d -v
+COPY go.mod go.sum ./
+RUN go mod download && go mod verify
 
-RUN go build -o main
+COPY . .
 
-# Build final image
-FROM scratch AS final
+# Build with some optimization
+RUN go build -o main .
 
-WORKDIR /app
+WORKDIR /dist
 
-COPY --from=builder /app/main /app
+RUN cp /build/main .
 
 EXPOSE 8000
 
-CMD ["/app/main"]
+CMD ["/dist/main"]
