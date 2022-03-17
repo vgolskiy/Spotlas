@@ -56,8 +56,7 @@ func GetSpotsByParameters(parameters *enteties.Parameters) (error, []enteties.Sp
 	if parameters.Type == "square" {
 		minLat, minLng, maxLat, maxLng := utils.GetSquareCoordinates(parameters)
 		rows, err := conn.Query(`select id, name, website, coordinates, description, rating
-from "MY_TABLE"
-where coordinates::geometry && ST_Envelope(ST_GeomFromText(CONCAT('LINESTRING(', $1::float8, ' ', $2::float8, ',', $3::float8, ' ', $4::float8, ')'), 4326))`, minLng, minLat, maxLng, maxLat)
+from getSpotsInSquare($1, $2, $3, $4, $5, $6)`, parameters.Longitude, parameters.Latitude, minLng, minLat, maxLng, maxLat)
 		if err != nil {
 			log.Println(err.Error())
 			return err, spots
@@ -69,8 +68,7 @@ where coordinates::geometry && ST_Envelope(ST_GeomFromText(CONCAT('LINESTRING(',
 		}
 	} else {
 		rows, err := conn.Query(`select id, name, website, coordinates, description, rating
-from "MY_TABLE"
-where coordinates::geometry && st_buffer(st_makepoint($1, $2)::geography, $3, 'quad_segs=8');`,
+from getSpotsInCircle($1, $2, $3)`,
 parameters.Longitude, parameters.Latitude, parameters.Radius)
 		if err != nil {
 			log.Println(err.Error())
