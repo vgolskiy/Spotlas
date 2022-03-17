@@ -19,7 +19,7 @@ func GetSpots(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	log.Printf("Getting spot list for %v\n", parameters)
+	log.Printf("Getting spots list for %v\n", parameters)
 	err, spots := repositary.GetSpotsByParameters(&parameters)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -31,6 +31,7 @@ func GetSpots(w http.ResponseWriter, r *http.Request) {
 
 func GetSpotByID(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
+	log.Printf("Getting spot with id %v\n", id)
 	err, spot := repositary.GetSpotByID(id)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)

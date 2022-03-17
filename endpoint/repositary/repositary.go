@@ -1,6 +1,7 @@
 package repositary
 
 import (
+	"database/sql"
 	"endpoint/enteties"
 	"endpoint/utils"
 	"log"
@@ -32,6 +33,21 @@ where id = $1`, id).Scan(&spot.ID, &spot.Name, &spot.Website, &spot.Coordinates,
 	return nil, spot
 }
 
+func rowsConversion(rows *sql.Rows) (error, []enteties.Spot) {
+	var spots []enteties.Spot
+
+	for rows.Next() {
+		var spot enteties.Spot
+		err := rows.Scan(&spot.ID, &spot.Name, &spot.Website, &spot.Coordinates, &spot.Description, &spot.Rating)
+		if err != nil {
+			log.Println(err.Error())
+			return err, spots
+		}
+		spots = append(spots, spot)
+	}
+	return nil, spots
+}
+
 func GetSpotsByParameters(parameters *enteties.Parameters) (error, []enteties.Spot) {
 	var spots []enteties.Spot
 
@@ -47,14 +63,23 @@ where coordinates::geometry && ST_Envelope(ST_GeomFromText(CONCAT('LINESTRING(',
 			return err, spots
 		}
 		defer rows.Close()
-		for rows.Next() {
-			var spot enteties.Spot
-			err = rows.Scan(&spot.ID, &spot.Name, &spot.Website, &spot.Coordinates, &spot.Description, &spot.Rating)
-			if err != nil {
-				log.Println(err.Error())
-				return err, spots
-			}
-			spots = append(spots, spot)
+		err, spots = rowsConversion(rows)
+		if err != nil {
+			return err, spots
+		}
+	} else {
+		rows, err := conn.Query(`select id, name, website, coordinates, description, rating
+from "MY_TABLE"
+where coordinates::geometry && st_buffer(st_makepoint($1, $2)::geography, $3, 'quad_segs=8');`,
+parameters.Longitude, parameters.Latitude, parameters.Radius)
+		if err != nil {
+			log.Println(err.Error())
+			return err, spots
+		}
+		defer rows.Close()
+		err, spots = rowsConversion(rows)
+		if err != nil {
+			return err, spots
 		}
 	}
 	return nil, spots
