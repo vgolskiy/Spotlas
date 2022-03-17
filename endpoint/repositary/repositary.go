@@ -9,11 +9,11 @@ import (
 
 var (
 	PostgresConf = enteties.PostgresConf {
-		Username:    	"postgres",
-		Password:    	"password",
-		Host:        	"localhost",
-		Port:        	"5432",
-		DatabaseName:	"postgres",
+		Username:    	utils.GetEnvWithKey("DB_USER", "postgres"),
+		Password:    	utils.GetEnvWithKey("DB_PASSWORD", "password"),
+		Host:        	utils.GetEnvWithKey("DB_HOST", "localhost"),
+		Port:        	utils.GetEnvWithKey("DN_PORT", "5432"),
+		DatabaseName:	utils.GetEnvWithKey("DB_NAME", "postgres"),
 		SSLMode:		"disable",
 	}
 )

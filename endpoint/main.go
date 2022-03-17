@@ -9,7 +9,8 @@ import (
 
 func main() {
 	router := mux.NewRouter()
-	router.HandleFunc("/spots/{id}", handlers.GetSpotByID)
+	router.HandleFunc("/spots/id/{id}", handlers.GetSpotByID)
 	router.HandleFunc("/spots", handlers.GetSpots)
+	router.HandleFunc("/spots/parameters", handlers.GetSpotByParameters)
 	log.Fatal(http.ListenAndServe(":8000", router))
 }

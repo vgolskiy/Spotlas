@@ -5,7 +5,7 @@ services:
     build: ./postgres
     restart: unless-stopped
     volumes:
-      - ./spots.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./scripts:/docker-entrypoint-initdb.d
     env_file:
       - .env
     ports:
@@ -16,3 +16,14 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
+
+  spotlas:
+    build:
+      context: ./endpoint
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    restart: on-failure

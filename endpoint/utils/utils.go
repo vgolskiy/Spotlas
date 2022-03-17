@@ -6,7 +6,16 @@ import (
 	_ "github.com/lib/pq"
 	"log"
 	"math"
+	"os"
 )
+
+func GetEnvWithKey(key string, defaultValue string) string {
+	if val := os.Getenv(key); len(val) > 0 {
+		return val
+	}
+	log.Printf("Variable %v doesn't exist, using default value\n", key)
+	return defaultValue
+}
 
 func GetPGConnection(conf *enteties.PostgresConf) *sql.DB {
 	conn, err := sql.Open("postgres", conf.GetConnectionString())
