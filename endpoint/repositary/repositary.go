@@ -37,6 +37,25 @@ func GetSpotsByParameters(parameters *enteties.Parameters) (error, []enteties.Sp
 
 	conn := utils.GetPGConnection(&PostgresConf)
 	defer conn.Close()
-	conn.Query(``)
+	if parameters.Type == "square" {
+		minLat, minLng, maxLat, maxLng := utils.GetSquareCoordinates(parameters)
+		rows, err := conn.Query(`select id, name, website, coordinates, description, rating
+from "MY_TABLE"
+where coordinates::geometry && ST_Envelope(ST_GeomFromText(CONCAT('LINESTRING(', $1::float8, ' ', $2::float8, ',', $3::float8, ' ', $4::float8, ')'), 4326))`, minLng, minLat, maxLng, maxLat)
+		if err != nil {
+			log.Println(err.Error())
+			return err, spots
+		}
+		defer rows.Close()
+		for rows.Next() {
+			var spot enteties.Spot
+			err = rows.Scan(&spot.ID, &spot.Name, &spot.Website, &spot.Coordinates, &spot.Description, &spot.Rating)
+			if err != nil {
+				log.Println(err.Error())
+				return err, spots
+			}
+			spots = append(spots, spot)
+		}
+	}
 	return nil, spots
 }

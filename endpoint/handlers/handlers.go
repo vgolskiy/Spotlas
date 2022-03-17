@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"endpoint/enteties"
 	"endpoint/repositary"
+	"endpoint/utils"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
@@ -14,11 +15,11 @@ func GetSpots(w http.ResponseWriter, r *http.Request) {
 
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&parameters)
-	if err != nil {
+	if err != nil || !utils.IsValidType(parameters.Type) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	log.Println(parameters)
+	log.Printf("Getting spot list for %v\n", parameters)
 	err, spots := repositary.GetSpotsByParameters(&parameters)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
