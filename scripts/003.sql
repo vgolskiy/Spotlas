@@ -33,7 +33,7 @@ BEGIN
            st_distance(st_makepoint(longitude, latitude)::geography,
                coordinates::geography) dist
     FROM "MY_TABLE"
-    WHERE coordinates::geography && ST_Envelope(
+    WHERE coordinates::geometry && ST_Envelope(
         ST_GeomFromText(CONCAT('LINESTRING(', minLng, ' ', minLat, ',', maxLng, ' ', maxLat, ')'), 4326))
     ORDER BY dist ASC;
     RETURN QUERY ((SELECT id, name, website, coordinates, description, rating
