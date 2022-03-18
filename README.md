@@ -9,9 +9,9 @@
 2. Created endpoint to get spots groups inside square/circle areas around given point with given area radius. Searching areas are defined with postgreSQL functions using built-in postGIS functions (/scripts/003.sql).
 
 Working with repository:
--	To pull repository use:
+-	To clone repository use:
 
-	``` https://github.com/vgolskiy/Spotlas.git ```
+	``` git clone https://github.com/vgolskiy/Spotlas.git Spotlas```
 
 -	To build an application, please, run the following commands sequence inside the repository root directory:
 
