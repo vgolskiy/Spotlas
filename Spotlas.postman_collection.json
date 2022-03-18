@@ -1,0 +1,168 @@
+{
+	"info": {
+		"_postman_id": "28f310c9-8b6e-4fc0-b4b7-d75318868e45",
+		"name": "Spotlas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get spot by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/spots/id/efd32090-6244-4dd9-94a7-5f791ec012f4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"spots",
+						"id",
+						"efd32090-6244-4dd9-94a7-5f791ec012f4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get spots by JSON (circle)",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"latitude\": 34.1012777,\n    \"longitude\": -118.3416128,\n    \"radius\": 2000,\n    \"type\": \"circle\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/spots",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"spots"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get spots by JSON (square)",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"latitude\": 34.1012777,\n    \"longitude\": -118.3416128,\n    \"radius\": 2000,\n    \"type\": \"square\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/spots",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"spots"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get spots by parameters (circle)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/spots/parameters?latitude=34.1012777&longitude=-118.3416128&radius=2000&type=circle",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"spots",
+						"parameters"
+					],
+					"query": [
+						{
+							"key": "latitude",
+							"value": "34.1012777"
+						},
+						{
+							"key": "longitude",
+							"value": "-118.3416128"
+						},
+						{
+							"key": "radius",
+							"value": "2000"
+						},
+						{
+							"key": "type",
+							"value": "circle"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get spots by parameters (square)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/spots/parameters?latitude=34.1012777&longitude=-118.3416128&radius=2000&type=square",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"spots",
+						"parameters"
+					],
+					"query": [
+						{
+							"key": "latitude",
+							"value": "34.1012777"
+						},
+						{
+							"key": "longitude",
+							"value": "-118.3416128"
+						},
+						{
+							"key": "radius",
+							"value": "2000"
+						},
+						{
+							"key": "type",
+							"value": "square"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
