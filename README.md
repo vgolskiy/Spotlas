@@ -2,6 +2,14 @@
 
 1. Created function that get domins from URLs (/scripts/002.sql). Additionally made view with resulting domain names aggregation to find groups with more than 1 spot inside (/scripts/004.sql).
 
+-	To connect to postgres docker use the following credentials:
+
+		DB_USER=postgres
+		DB_PASSWORD=password
+		DB_HOST=localhost
+		DB_PORT=5432
+		DB_NAME=postgres
+
 -	To verify result you can use query:
 
 	``` SELECT * FROM domains_aggregated; ```
