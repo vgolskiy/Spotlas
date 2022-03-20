@@ -8,8 +8,7 @@ BEGIN
            st_distance(st_makepoint(longitude, latitude)::geography,
                coordinates::geography) dist
     FROM "MY_TABLE"
-    WHERE coordinates::geography && st_buffer(
-        st_makepoint(longitude, latitude)::geography, radius, 'quad_segs=8')
+    WHERE ST_DWithin(coordinates::geography,ST_Point(longitude, latitude)::geography,radius)
     ORDER BY dist ASC;
     RETURN QUERY ((SELECT id, name, website, coordinates, description, rating
     FROM spots
