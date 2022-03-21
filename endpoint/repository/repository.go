@@ -1,21 +1,22 @@
-package repositary
+package repository
 
 import (
 	"database/sql"
 	"endpoint/enteties"
 	"endpoint/utils"
-	_ "github.com/lib/pq"
 	"log"
+
+	_ "github.com/lib/pq"
 )
 
 var (
-	PostgresConf = enteties.PostgresConf {
-		Username:    	utils.GetEnvWithKey("DB_USER", "postgres"),
-		Password:    	utils.GetEnvWithKey("DB_PASSWORD", "password"),
-		Host:        	utils.GetEnvWithKey("DB_HOST", "localhost"),
-		Port:        	utils.GetEnvWithKey("DB_PORT", "5432"),
-		DatabaseName:	utils.GetEnvWithKey("DB_NAME", "postgres"),
-		SSLMode:		"disable",
+	PostgresConf = enteties.PostgresConf{
+		Username:     utils.GetEnvWithKey("DB_USER", "postgres"),
+		Password:     utils.GetEnvWithKey("DB_PASSWORD", "password"),
+		Host:         utils.GetEnvWithKey("DB_HOST", "localhost"),
+		Port:         utils.GetEnvWithKey("DB_PORT", "5432"),
+		DatabaseName: utils.GetEnvWithKey("DB_NAME", "postgres"),
+		SSLMode:      "disable",
 	}
 )
 
@@ -70,7 +71,7 @@ from getSpotsInSquare($1, $2, $3, $4, $5, $6)`, parameters.Longitude, parameters
 	} else {
 		rows, err := conn.Query(`select id, name, website, coordinates, description, rating
 from getSpotsInCircle($1, $2, $3)`,
-parameters.Longitude, parameters.Latitude, parameters.Radius)
+			parameters.Longitude, parameters.Latitude, parameters.Radius)
 		if err != nil {
 			log.Println(err.Error())
 			return err, spots

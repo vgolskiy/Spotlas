@@ -3,12 +3,13 @@ package handlers
 import (
 	"encoding/json"
 	"endpoint/enteties"
-	"endpoint/repositary"
+	"endpoint/repository"
 	"endpoint/utils"
-	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
 func GetSpots(w http.ResponseWriter, r *http.Request) {
@@ -21,7 +22,7 @@ func GetSpots(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	log.Printf("Getting spots list for %v\n", parameters)
-	err, spots := repositary.GetSpotsByParameters(&parameters)
+	err, spots := repository.GetSpotsByParameters(&parameters)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
@@ -35,7 +36,7 @@ func GetSpots(w http.ResponseWriter, r *http.Request) {
 func GetSpotByID(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 	log.Printf("Getting spot with id %v\n", id)
-	err, spot := repositary.GetSpotByID(id)
+	err, spot := repository.GetSpotByID(id)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
@@ -61,7 +62,7 @@ func GetSpotByParameters(w http.ResponseWriter, r *http.Request) {
 	parameters.Radius = radius
 	parameters.Type = r.URL.Query().Get("type")
 	log.Printf("Getting spots list for %v\n", parameters)
-	err, spots := repositary.GetSpotsByParameters(&parameters)
+	err, spots := repository.GetSpotsByParameters(&parameters)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
